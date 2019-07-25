@@ -1,0 +1,26 @@
+$error-red:#ff0000;
+
+.input-with-labels {
+  display:flex;
+  flex-direction:row;
+
+  .input-label {
+    margin-right: 0.5em;
+  }
+
+  .input-label-error, .error-label {
+    color:$error-red;
+  }
+
+
+
+  .input-field-container {
+    display:flex;
+    flex-direction:column;
+
+    .text-input-error, .number-input-error {
+      color:$error-red;
+      border-color:$error-red;
+    }
+  }
+}

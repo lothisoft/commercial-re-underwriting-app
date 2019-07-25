@@ -2,14 +2,28 @@
   "name": "commercial-re-underwriting-app",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Lothar Krause",
+    "email": "lothisoft@yahoo.com",
+    "url": "https://lothisoft.com/"
+  },
   "dependencies": {
+    "classnames": "^2.2.6",
+    "node-sass": "^4.12.0",
+    "numeral": "^2.0.6",
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-load-script": "0.0.6",
     "react-scripts": "3.0.1"
   },
   "scripts": {
+    "lint": "eslint src",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "prettier": "prettier  \"**/*.+(js|jsx)\"",
+    "validate": "npm run lint && npm run prettier -- --list-different",
+    "storybook": "start-storybook",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -27,5 +41,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@storybook/react": "^5.0.11",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.2.0",
+    "eslint-plugin-react": "^7.13.0",
+    "lint-staged": "^8.1.6",
+    "prettier": "^1.17.0"
   }
 }

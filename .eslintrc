@@ -1,0 +1,31 @@
+{
+  "plugins": [
+    "react"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "eslint-config-prettier"
+  ],
+  "parserOptions" : {
+    "ecmaVersion": "2018",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "settings" : {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "no-undef": "off",
+    "no-console": "error"
+  },
+  "env": {
+    "browser": true,
+    "jest": true
+  }
+}

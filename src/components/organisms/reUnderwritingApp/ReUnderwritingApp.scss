@@ -1,0 +1,50 @@
+$greystoneBlue:#1c6d8a;
+
+@font-face {
+  font-family: 'Avenir-LT-Std-55-Roman';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Avenir LT Std 55 Roman'), url('../../../fonts/avenir-lt-std-cufonfonts-webfont/AvenirLTStd-Roman.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Avenir LT Std 65 Medium';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Avenir LT Std 65 Medium'), url('../../../fonts/avenir-lt-std-cufonfonts-webfont/AvenirLTStd-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Avenir LT Std 95 Black';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Avenir LT Std 95 Black'), url('../../../fonts/avenir-lt-std-cufonfonts-webfont/AvenirLTStd-Black.woff') format('woff');
+}
+
+.Avenir-LT-Std-55-Roman {
+  font-family: Avenir-LT-Std-55-Roman, sans-serif;
+}
+
+.Avenir-LT-Std-65-Medium {
+  font-family: 'Avenir LT Std 65 Medium', sans-serif;
+}
+
+.Avenir-LT-Std-95-Black {
+  font-family: 'Avenir LT Std 95 Black', sans-serif;
+}
+
+.re-underwriting-app {
+  color:white;
+  background-color:$greystoneBlue;
+  height: 100%;
+
+  h1 {
+    margin-top:0;
+    padding-top:2em;
+    font-size:2em;
+  }
+
+  .container {
+    margin-left:5em;
+  }
+}
