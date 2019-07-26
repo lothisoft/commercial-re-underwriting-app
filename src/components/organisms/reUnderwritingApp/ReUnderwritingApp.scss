@@ -47,4 +47,12 @@ $greystoneBlue:#1c6d8a;
   .container {
     margin-left:5em;
   }
+
+  .input-with-labels.noi-display, .input-with-labels.cap-rate {
+    margin-top:2em;
+  }
+
+  input.read-only {
+    background-color: lightgrey;
+  }
 }

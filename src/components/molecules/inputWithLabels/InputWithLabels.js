@@ -61,7 +61,6 @@ export class InputWithLabels extends React.Component {
       ((typeof(this.state.valid) === 'boolean' && !this.state.valid) ||
       (typeof(this.state.valid) === 'string' && this.state.valid) ||
         false)  && (this.props.wasTouched || this.state.touched);
-    console.log("Input With Labels (props|state|value|inputError) ", this.props, this.state, this.state.value, inputError);
 
     return (
       <div className={classNames("input-with-labels", this.props.className)}>
@@ -73,7 +72,7 @@ export class InputWithLabels extends React.Component {
           <Input name={this.props.inputFieldName}
                  value={this.state.value}
                  className={classNames("the-input-field-text",
-                   {'text-input-error': inputError},
+                   {'text-input-error': inputError}, {'read-only':this.props.readonly},
                  )}
                  onChange={this.handleOnChange}
                  onBlur={this.handleOnBlur}
@@ -84,7 +83,7 @@ export class InputWithLabels extends React.Component {
                                 className={classNames("the-input-field-number",
                                   this.props.className,
                                   {'number-input-error': inputError,
-                                  'readonly':this.props.readonly})}
+                                  'read-only':this.props.readonly})}
                                 format={this.props.inputFieldNumberFormat}
                                 value={this.state.value}
                                 onChange={this.handleOnChange}
@@ -106,7 +105,7 @@ InputWithLabels.propTypes = {
   inputFieldType:PropTypes.oneOf(['text', 'number']).isRequired,  // the type of input field
   inputFieldNumberFormat:PropTypes.string,                        // the number format for number input fields only
   className:PropTypes.string,
-  value:PropTypes.string || PropTypes.number,                     // the original value of the input field
+  value:PropTypes.oneOfType([PropTypes.string, PropTypes.number]),                     // the original value of the input field
   validation: PropTypes.func,                                      // the validation function
   onChange: PropTypes.func,
   onBlur: PropTypes.func,

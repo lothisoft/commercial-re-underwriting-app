@@ -74,7 +74,7 @@ export class FormattedNumberInput extends React.Component {
             onChange={this.handleOnChange}
             onBlur={this.handleOnBlur}
             readOnly={this.props.readonly}
-            className={classNames('atom-formatNumberInput editing', this.props.className)}
+            className={classNames('atom-formatNumberInput editing', this.props.className, {'read-only':this.props.readonly})}
           />
         ) : (
           <input
@@ -83,7 +83,7 @@ export class FormattedNumberInput extends React.Component {
             value={this.state.value}
             onFocus={this.handleOnFocus}
             readOnly={true}
-            className={classNames('atom-formatNumberInput viewing', this.props.className)}
+            className={classNames('atom-formatNumberInput viewing', this.props.className, {'read-only':this.props.readonly})}
           />
         )
     );
