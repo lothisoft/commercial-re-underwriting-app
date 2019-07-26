@@ -1,7 +1,8 @@
 import React from 'react';
 
-
+import {InputWithLabels} from "../../molecules/inputWithLabels/InputWithLabels";
 import {GooglePlacesAutoComplete} from "../../molecules/googlePlacesAutoComplete/GooglePlacesAutoComplete";
+import {Button} from "../../atoms/button/Button";
 
 import {AddressEditor} from "../addressEditor/AddressEditor";
 import {AddressDisplay} from "../addressDisplay/AddressDisplay";
@@ -19,15 +20,17 @@ export class ReUnderwritingApp extends React.Component {
       addressFieldsReadOnly:true,
       addressSearchValue:"",
 
-      annualRent:0,
+      income:0,
       expenses:0,
       noi:0,
+      noiKey: Math.floor(Math.random() * Math.floor(100000000))
     };
 
 
     this.handleOnPlaceSelected = this.handleOnPlaceSelected.bind(this);
     this.handleRentRowChange = this.handleRentRowChange.bind(this);
     this.handleExpenseChange = this.handleExpenseChange.bind(this);
+    this.submit = this.submit.bind(this);
 
   }
 
@@ -42,24 +45,28 @@ export class ReUnderwritingApp extends React.Component {
       interimAddress[addressType] = place.address_components[i].long_name;
     }
 
-    const propertyAddress={};
-    propertyAddress.street = `${interimAddress.street_number} ${interimAddress.route}`;
-    propertyAddress.city = interimAddress.sublocality_level_1;
-    propertyAddress.state = interimAddress.administrative_area_level_1;
-    propertyAddress.zipcode = interimAddress.postal_code;
-    propertyAddress.county = interimAddress.administrative_area_level_2;
+    const address={};
+    address.street = `${interimAddress.street_number} ${interimAddress.route}`;
+    address.city = interimAddress.sublocality_level_1;
+    address.state = interimAddress.administrative_area_level_1;
+    address.zip = interimAddress.postal_code;
+    address.county = interimAddress.administrative_area_level_2;
 
-    this.setState({propertyAddress});
+    this.setState({address});
   }
 
-  handleRentRowChange(annualRent) {
-    let noi = this.state.annualRent - this.state.expenses;
-    this.setState({annualRent, noi});
+  handleRentRowChange(income) {
+    let noi = income - this.state.expenses;
+    this.setState({income, noi, noiKey: Math.floor(Math.random() * Math.floor(100000000))});
   }
 
   handleExpenseChange(expenses) {
-    let noi = this.state.annualRent - this.state.expenses;
-    this.setState({expenses, noi});
+    let noi = this.state.income - expenses;
+    this.setState({expenses, noi, noiKey: Math.floor(Math.random() * Math.floor(100000000))});
+  }
+
+  submit() {
+    console.log("Submit");
   }
 
   render() {
@@ -81,8 +88,26 @@ export class ReUnderwritingApp extends React.Component {
 
            <Expenses onChange={this.handleExpenseChange} />
 
+           <InputWithLabels key={this.state.noiKey} name={"noi"}
+                            inputFieldName="noiDisplay"
+                            inputLabel="Net Operating Income (NOI)"
+                            value={this.state.noi}
+                            inputFieldType="number"
+                            inputFieldNumberFormat="$0,0.00"
+                            readonly={true}
+                            className="noi-display"/>
+
+           <InputWithLabels name={"capRate"}
+                            inputFieldName="capRate"
+                            inputLabel="Capitalization Rate (in %)"
+                            inputFieldType="number"
+                            inputFieldNumberFormat="0.0%"
+                            className="cap-rate"/>
+
+           <Button onClick={this.submit}>Submit</Button>
+
          </div>
        </div>
     );
   }
-};
+}
