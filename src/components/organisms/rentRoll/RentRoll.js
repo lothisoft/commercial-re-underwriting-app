@@ -23,8 +23,6 @@ class RentRollRow extends React.Component {
   }
 
   handleOnBlur(fieldName, event) {
-    console.log("RentRollRow.handleOnBlur() event:", fieldName, event.target.value);
-
     // update the value that has changed and recalculate the annual rent
     const currentState = this.state;
     currentState[fieldName] = event.target.value;

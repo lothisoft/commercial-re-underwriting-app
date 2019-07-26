@@ -41,19 +41,21 @@ export class InputWithLabels extends React.Component {
 
   };
 
-  handleOnBlur() {
-    this.props.onBlur &&  this.props.onBlur({touched:true});
+  handleOnBlur(event) {
+    let value;
+
+    if (this.props.inputFieldType === 'number') {
+      value =  Number(event.target.value);
+    } else {
+      value = event.target.value;
+    }
+    this.props.onBlur &&  this.props.onBlur({touched:true, value});
 
     this.setState({
       touched:true
     });
   };
 
-/*  static getDerivedStateFromProps(props, state) {
-    if (state.value !== props.value) {
-      state.value = props.value;
-    }
-  }*/
   render () {
     const inputError =
       ((typeof(this.state.valid) === 'boolean' && !this.state.valid) ||

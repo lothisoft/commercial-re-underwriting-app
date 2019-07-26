@@ -6,6 +6,7 @@ import {GooglePlacesAutoComplete} from "../../molecules/googlePlacesAutoComplete
 import {AddressEditor} from "../addressEditor/AddressEditor";
 import {AddressDisplay} from "../addressDisplay/AddressDisplay";
 import {RentRoll} from "../rentRoll/RentRoll";
+import {Expenses} from "../expenses/Expenses";
 
 import "./ReUnderwritingApp.scss";
 
@@ -19,11 +20,15 @@ export class ReUnderwritingApp extends React.Component {
       addressSearchValue:"",
 
       annualRent:0,
+      expenses:0,
+      noi:0,
     };
 
 
     this.handleOnPlaceSelected = this.handleOnPlaceSelected.bind(this);
     this.handleRentRowChange = this.handleRentRowChange.bind(this);
+    this.handleExpenseChange = this.handleExpenseChange.bind(this);
+
   }
 
   handleOnPlaceSelected(place) {
@@ -48,11 +53,16 @@ export class ReUnderwritingApp extends React.Component {
   }
 
   handleRentRowChange(annualRent) {
-    this.setState({annualRent});
+    let noi = this.state.annualRent - this.state.expenses;
+    this.setState({annualRent, noi});
+  }
+
+  handleExpenseChange(expenses) {
+    let noi = this.state.annualRent - this.state.expenses;
+    this.setState({expenses, noi});
   }
 
   render() {
-    console.log("ReUnderwritingApp.render(): ", this.state);
     return (
        <div className="re-underwriting-app Avenir-LT-Std-95-Black">
          <div className="container">
@@ -68,6 +78,8 @@ export class ReUnderwritingApp extends React.Component {
             <AddressDisplay address={this.state.propertyAddress} /> }
 
            <RentRoll onChange={this.handleRentRowChange}/>
+
+           <Expenses onChange={this.handleExpenseChange} />
 
          </div>
        </div>
