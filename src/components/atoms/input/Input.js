@@ -34,8 +34,9 @@ export class Input extends React.Component {
   /**
    *  handleOnBlur() is called every time the input field loses the input focus.  The function will call a callback function if it was provided by the parent component via the onBlur property.
    */
-  handleOnBlur() {
-    this.props.onBlur && this.props.onBlur({touched: true});
+  handleOnBlur(event) {
+
+    this.props.onBlur && this.props.onBlur(event);
   }
 
   handleOnFocus(event) {

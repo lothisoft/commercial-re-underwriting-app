@@ -1,0 +1,41 @@
+.organism-mortgageterms {
+   margin-top: 2em;
+
+  .mortgage-term-header {
+
+  }
+
+  .mortgage-terms-display {
+    display: flex;
+    flex-wrap: wrap;
+
+
+    .term-sheet {
+      margin: 2em;
+      padding: 0.25em;
+      color: black;
+      background-color: white;
+      max-width: 33%;
+
+      .input-with-labels {
+        font-size: 1em;
+
+        .input-label {
+          min-width: 45%;
+          max-width: 45%;
+        }
+
+        .input-field-container {
+          max-width: 45%;
+
+          input.read-only {
+            font-size: 1em;
+            background-color: white;
+            border: none;
+            padding: 0;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,9 +1,10 @@
 .organism-expenses {
   .input-with-labels {
     margin-bottom:0.5em;
+    min-width: 25%;
 
     .input-label {
-      width: 10%;
+      min-width: 125px;
     }
 
     input {

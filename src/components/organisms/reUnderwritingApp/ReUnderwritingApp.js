@@ -8,6 +8,8 @@ import {AddressEditor} from "../addressEditor/AddressEditor";
 import {AddressDisplay} from "../addressDisplay/AddressDisplay";
 import {RentRoll} from "../rentRoll/RentRoll";
 import {Expenses} from "../expenses/Expenses";
+import {MortgageTerms} from "../mortgageTerms/MortgageTerms";
+
 
 import "./ReUnderwritingApp.scss";
 
@@ -16,20 +18,24 @@ export class ReUnderwritingApp extends React.Component {
     super();
 
     this.state = {
-      propertyAddress:{},
+      address:{},
       addressFieldsReadOnly:true,
       addressSearchValue:"",
 
       income:0,
       expenses:0,
       noi:0,
-      noiKey: Math.floor(Math.random() * Math.floor(100000000))
+      rate:0,
+      noiKey: Math.floor(Math.random() * Math.floor(100000000)),
+
+      mortgageTerms:[],
     };
 
 
     this.handleOnPlaceSelected = this.handleOnPlaceSelected.bind(this);
     this.handleRentRowChange = this.handleRentRowChange.bind(this);
     this.handleExpenseChange = this.handleExpenseChange.bind(this);
+    this.handleChangeCapRate = this.handleChangeCapRate.bind(this);
     this.submit = this.submit.bind(this);
 
   }
@@ -65,8 +71,33 @@ export class ReUnderwritingApp extends React.Component {
     this.setState({expenses, noi, noiKey: Math.floor(Math.random() * Math.floor(100000000))});
   }
 
-  submit() {
-    console.log("Submit");
+  handleChangeCapRate(capRate) {
+    this.setState({rate: capRate.value});
+  }
+
+  async submit() {
+    const {address, income, expenses, noi, rate, ..._ } = this.state;
+    const postRequestObject = {address, income, expenses, noi, rate};
+    console.log("POST Request with the following payload:", postRequestObject);
+
+    let responseData;
+    try {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbwPGz6uQQS9IW33ASPYlcWaEtRMD8eDAK1ONg7lT2dREXpaSUYh/exec', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postRequestObject)
+      });
+      responseData = await response.json();
+    } catch (error) {
+      console.log("Error caught while doing POST request: ", error);
+      responseData = JSON.parse("{\"success\":true,\"terms\":[{\"NOI\":277900,\"Value\":86304.34782608695,\"75% LTV Proceeds\":64728.26086956521,\"Treasury\":0.02815,\"Interest Rate\":0.030150000000000003,\"Debt Constant\":0.05068961414695165,\"Annual Debt Service\":222320,\"Years\":30,\"# Payments\":360,\"Payoff\":0,\"Proceeds\":4385908.31162146,\"Agency\":\"Fannie Mae\",\"Type\":\"5 Years Hybrid\"},{\"NOI\":277900,\"Value\":86304.34782608695,\"75% LTV Proceeds\":64728.26086956521,\"Treasury\":0.03105,\"Interest Rate\":0.03305,\"Debt Constant\":0.05258767500507064,\"Annual Debt Service\":222320,\"Years\":30,\"# Payments\":360,\"Payoff\":0,\"Proceeds\":4227606.563297642,\"Agency\":\"Fannie Mae\",\"Type\":\"7 Years Fixed\"},{\"NOI\":277900,\"Value\":86304.34782608695,\"75% LTV Proceeds\":64728.26086956521,\"Treasury\":0.03415,\"Interest Rate\":0.03615,\"Debt Constant\":0.05465863730979345,\"Annual Debt Service\":222320,\"Years\":30,\"# Payments\":360,\"Payoff\":0,\"Proceeds\":4067426.6857393067,\"Agency\":\"Freddie SBL\",\"Type\":\"5 Years Hybrid\"},{\"NOI\":277900,\"Value\":86304.34782608695,\"75% LTV Proceeds\":64728.26086956521,\"Treasury\":0.0364,\"Interest Rate\":0.038400000000000004,\"Debt Constant\":0.056188479327577985,\"Annual Debt Service\":222320,\"Years\":30,\"# Payments\":360,\"Payoff\":0,\"Proceeds\":3956682.9830698525,\"Agency\":\"Freddie SBL\",\"Type\":\"10 Years Fixed\"},{\"NOI\":277900,\"Value\":86304.34782608695,\"75% LTV Proceeds\":64728.26086956521,\"Treasury\":0.0364,\"Interest Rate\":0.038400000000000004,\"Debt Constant\":0.056188479327577985,\"Annual Debt Service\":222320,\"Years\":30,\"# Payments\":360,\"Payoff\":0,\"Proceeds\":3956682.9830698525,\"Agency\":\"Fannie Mae\",\"Type\":\"10 Years Fixed\"},{\"NOI\":277900,\"Value\":86304.34782608695,\"75% LTV Proceeds\":64728.26086956521,\"Treasury\":0.0264,\"Interest Rate\":0.0284,\"Debt Constant\":0.04956288276873429,\"Annual Debt Service\":222319.99999999997,\"Years\":30,\"# Payments\":360,\"Payoff\":0,\"Proceeds\":4485614.790353678,\"Agency\":\"Freddie SBL\",\"Type\":\"5 Years Hybrid\"},{\"NOI\":277900,\"Value\":86304.34782608695,\"75% LTV Proceeds\":64728.26086956521,\"Treasury\":0.0294,\"Interest Rate\":0.0314,\"Debt Constant\":0.05150304303071572,\"Annual Debt Service\":222319.99999999997,\"Years\":30,\"# Payments\":360,\"Payoff\":0,\"Proceeds\":4316638.142476578,\"Agency\":\"Fannie Mae\",\"Type\":\"10 Years Fixed\"},{\"NOI\":277900,\"Value\":86304.34782608695,\"75% LTV Proceeds\":64728.26086956521,\"Treasury\":0.0298,\"Interest Rate\":0.0318,\"Debt Constant\":0.0517648480967802,\"Annual Debt Service\":222320,\"Years\":30,\"# Payments\":360,\"Payoff\":0,\"Proceeds\":4294806.382592832,\"Agency\":\"Fannie Mae\",\"Type\":\"7 Years Fixed\"},{\"NOI\":277900,\"Value\":86304.34782608695,\"75% LTV Proceeds\":64728.26086956521,\"Treasury\":0.0314,\"Interest Rate\":0.0334,\"Debt Constant\":0.05281933394182671,\"Annual Debt Service\":222319.99999999997,\"Years\":30,\"# Payments\":360,\"Payoff\":0,\"Proceeds\":4209064.814123842,\"Agency\":\"Freddie SBL\",\"Type\":\"7 Years Fixed\"}],\"src\":{}}");
+    }
+
+    console.log("Response Data: ", responseData);
+    this.setState({mortgageTerms: responseData.terms});
+
   }
 
   render() {
@@ -80,15 +111,16 @@ export class ReUnderwritingApp extends React.Component {
                                     onPlaceSelected={this.handleOnPlaceSelected}
                                     value={this.state.addressSearchValue}/>
            {!this.state.addressFieldsReadOnly &&
-            <AddressEditor address={this.state.propertyAddress} readonly={this.state.addressFieldsReadOnly}/>}
+            <AddressEditor address={this.state.address} readonly={this.state.addressFieldsReadOnly}/>}
            {this.state.addressFieldsReadOnly &&
-            <AddressDisplay address={this.state.propertyAddress} /> }
+            <AddressDisplay address={this.state.address} /> }
 
            <RentRoll onChange={this.handleRentRowChange}/>
 
            <Expenses onChange={this.handleExpenseChange} />
 
-           <InputWithLabels key={this.state.noiKey} name={"noi"}
+           <InputWithLabels key={this.state.noiKey}
+                            name={"noi"}
                             inputFieldName="noiDisplay"
                             inputLabel="Net Operating Income (NOI)"
                             value={this.state.noi}
@@ -102,9 +134,12 @@ export class ReUnderwritingApp extends React.Component {
                             inputLabel="Capitalization Rate (in %)"
                             inputFieldType="number"
                             inputFieldNumberFormat="0.0%"
-                            className="cap-rate"/>
+                            className="cap-rate"
+                            onBlur={this.handleChangeCapRate}/>
 
-           <Button onClick={this.submit}>Submit</Button>
+           <Button onClick={this.submit} className="submit-button Avenir-LT-Std-95-Black">Submit</Button>
+
+           <MortgageTerms terms={this.state.mortgageTerms} visible={this.state.mortgageTerms.length > 0}/>
 
          </div>
        </div>
