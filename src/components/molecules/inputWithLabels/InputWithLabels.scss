@@ -3,6 +3,7 @@ $error-red:#ff0000;
 .input-with-labels {
   display:flex;
   flex-direction:row;
+  margin-bottom:0.25em;
 
   .input-label {
     margin-right: 0.5em;
@@ -11,8 +12,6 @@ $error-red:#ff0000;
   .input-label-error, .error-label {
     color:$error-red;
   }
-
-
 
   .input-field-container {
     display:flex;

@@ -3,6 +3,10 @@
   .name-value {
     display:flex;
     margin-top:0.5em;
+
+    .label {
+      margin-right:0.5em;
+    }
   }
 
 }

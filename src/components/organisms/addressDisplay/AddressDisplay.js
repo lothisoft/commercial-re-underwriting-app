@@ -40,7 +40,7 @@ export const AddressDisplay = (props) => {
           Zip Code:
         </div>
         <div className="value">
-          {props.address.zipcode}
+          {props.address.zip}
         </div>
       </div>
 
@@ -62,7 +62,7 @@ AddressDisplay.propTypes = {
       street:PropTypes.string,
       city:PropTypes.string,
       state:PropTypes.string,
-      zipcode:PropTypes.string,
+      zip:PropTypes.string,
       county:PropTypes.string,
     }
   ),

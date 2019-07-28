@@ -22,9 +22,6 @@ const MTerm = (props) => {
     {name:"Proceeds", displayName:"Proceeds: ", type:"number", format:"$0,0.00"},
   ];
 
-  console.log("MTerm: ", props);
-
-
   return (<div className="term-sheet">
     {mortgageTermsValueNames.map((valueNameProperties, index) => {
       return (
@@ -36,9 +33,7 @@ const MTerm = (props) => {
                          inputFieldNumberFormat={valueNameProperties.format}
                           readonly={true}/>
       )})}
-
     </div>
-
   );
 };
 

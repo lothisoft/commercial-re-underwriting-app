@@ -18,7 +18,12 @@ export class FormattedNumberInput extends React.Component {
       value = numeral(value).format(this.props.format);
     }
 
-    this.state = { isEditing: false, value:(value || "")};
+    let defaultValue = "";
+    if (props.readonly) {
+      defaultValue = 0;
+    }
+
+    this.state = { isEditing: false, value:(value || defaultValue)};
 
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOnBlur =  this.handleOnBlur.bind(this);

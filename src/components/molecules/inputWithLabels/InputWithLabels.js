@@ -56,7 +56,6 @@ export class InputWithLabels extends React.Component {
   };
 
   render () {
-    console.log("InputWithLabels.render()", this.state);
     const inputError =
       ((typeof(this.state.valid) === 'boolean' && !this.state.valid) ||
       (typeof(this.state.valid) === 'string' && this.state.valid) ||
