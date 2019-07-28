@@ -50,6 +50,81 @@ I used the following libraries:
 ######node-sass: A library that allowed me to use SASS instead of regular CSS
 ######numeral: A library that helps in formatting numbers.  This project relies heavily on numbers and it was useful to have a straightforward way to format them properly.
 
+##Component Design Philosophy
+I decided to organise the React components I built around the Atomic Design Methodolgy (as described by Brad Frost here: http://atomicdesign.bradfrost.com/). 
+I organised my components around the concepts of atoms (single purpose components), molecules which consist of two or more atoms 
+and organisms which consist of several atoms, molecules or other organisms.
+
+##Atoms
+###Label
+The Label component represents an HTML label tag in particular as a text display method if the text belongs to another HTML form element
+
+##Input 
+The Input component represents the HTML input tag.
+
+##Button
+The Button component represents the HTML button tag.
+
+##FormattedNumberInput
+The FormattedNumberInput component implements a specialized input component which is used to allow the user to input a number 
+and the component formats the number according to a format string which is passed as a parameter when the component loses the cursor focus.
+This application relies a lot on entering and displaying numbers in different formats. This component is used both for 
+input as well as the display of formatted numbers (with it's readolny mode)
+
+##Molecules
+##InputWithLabels
+The InputWithLabels component implements a text or formatted number input box with an optional label describing the input box and an optional 
+error message which is returned by a validation function when the input does not pass the validation test.
+
+##GooglePlacesAutoComplete
+The GooglePlacesAutoComplete implements a text input field which utilized the Google Places Autocomplete API to suggest
+addresses in the US based on the first characters entered into the text field.
+
+##Organisms
+The ReUnderwritingApp app implements the User Interface for a Mortgage Underwriting application with the following elements:
+
+###Address Input Field
+- A Google Place API enhanced address search text input fields which proposes valid addresses in the US.  The user selects one
+address to proceed.
+
+###Address Display
+- The Address display shows the five elements of an address in the US: street address, city, state, zip code and county name.
+
+###Rent Roll
+- The rent roll allows the user to enter 1 or more units at this address.  
+The user can enter the following information for each unit: 
+Unit Number - a free text field
+Monthly Rent - the monthly rent amount in US-$
+Vacancy rate - the vacancy rate in %
+Number of bedrooms - the number of bedrooms for the unit
+Number of bathrooms - the number of bathrooms for the unit
+Annual Rent - this field is calculated (monthly rent * 12 - ((monthly rent * 12) * vacancy rate)) and is displayed but cannot be edited
+
+###Expenses
+- The user can enter a US-$ amount for the annual expenses for Marketing, Taxes, Insurance,
+Repairs, Administration, Payroll, Utility, Management.  The annual total for expenses is calculated by adding all expense amounts and
+the total is display, but cannot be editied by the user.
+
+###NOI and Cap Rate
+The amount for NOI is calculated by substracting the annual expenses from the annual rental income.  The value is displayed and
+cannot be edited.  The capitalization rate in % can be entered by the user.
+
+###Submit Button
+Once the user has entered values for address, rental income, expenses and capitalization rate, the Submit button will be activated and the user can
+submit the data.
+
+### Mortgage Terms
+Once the mortgage terms data has been returned from the server,  the first three mortgage terms are displayed.  All mortgage terms are shown after the user clicks on the "Show All" button.
+      
+             
+
+
+ 
+#Installation
+To install the application, you can run: 
+### `npm install`
+to download all libraries required to run the application
+
 
 #Usage
 
@@ -61,14 +136,12 @@ To start the application, you can run:
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
+To see the Storybook for the components, you can run:
+### `npm run storybook`
 
-
-
-
-
-
-
-
+Runs the app in the storybook mode<br>
+The storybook mode will open a new browser and display the storybook  For more information about Storybook, please see: https://storybook.js.org/
+ 
 
 
 
