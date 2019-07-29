@@ -133,6 +133,8 @@ submit the data.
 
 ### Mortgage Terms
 Once the mortgage terms data has been returned from the server,  the first three mortgage terms are displayed.  All mortgage terms are shown after the user clicks on the "Show All" button.
+  
+###Each source code file contains comments to document implementation details.  
        
 #Installation
 To install the application, you can run: 

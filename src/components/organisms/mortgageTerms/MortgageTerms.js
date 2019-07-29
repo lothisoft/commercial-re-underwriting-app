@@ -8,6 +8,8 @@ import {InputWithLabels} from "../../molecules/inputWithLabels/InputWithLabels";
 import "./MortgageTerms.scss";
 
 const MTerm = (props) => {
+
+  // here, the order of values and the format used to displayed them is defined
   const mortgageTermsValueNames = [
     {name:"Agency", displayName:"Agency: ", type:"text"},
     {name:"Type", displayName:"Type: ", type:"text"},
@@ -22,6 +24,7 @@ const MTerm = (props) => {
     {name:"Proceeds", displayName:"Proceeds: ", type:"number", format:"$0,0.00"},
   ];
 
+  //  iterate over the above array and display the values in the order and manner they are mentioned above
   return (<div className="term-sheet">
     {mortgageTermsValueNames.map((valueNameProperties, index) => {
       return (
@@ -56,6 +59,9 @@ export class MortgageTerms extends React.Component {
      this.handleShowAllClick = this.handleShowAllClick.bind(this);
   }
 
+  /**
+   * handleShowAllClick() is called when the user clicks on the show all button
+   */
   handleShowAllClick() {
     this.setState({
       termsToShow: this.props.terms,
