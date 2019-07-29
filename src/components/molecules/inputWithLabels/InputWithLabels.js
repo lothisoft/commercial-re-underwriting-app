@@ -14,7 +14,7 @@ export class InputWithLabels extends React.Component {
 
     this.state = {
       value: this.props.value || "",
-      touched:false,
+      touched:this.props.wasTouched || false,
       valid:!this.props.validation,  // if there is no validation function, assume the value is valid
       validationMessage:""
     };
@@ -23,6 +23,11 @@ export class InputWithLabels extends React.Component {
     this.handleOnBlur =  this.handleOnBlur.bind(this);
   }
 
+  /**
+   * handleOnChange() is called whenever the value in the input field changes.  It calls the validation function
+   * to figure out if the validation passes with the new value.
+   * @param event
+   */
   handleOnChange(event) {
     this.setState({
       value: event.target.value
@@ -41,6 +46,12 @@ export class InputWithLabels extends React.Component {
 
   };
 
+  /**
+   * handleOnBlur() is called when the input field loses the input focus.  The input field is considered 'touched' which
+   * means that any error condition due to validation failure will now be visible in the appearance of the input field and
+   * any validation message will be displayed.
+   * @param event
+   */
   handleOnBlur(event) {
     let value;
     if (this.props.inputFieldType === 'number') {
@@ -59,7 +70,7 @@ export class InputWithLabels extends React.Component {
     const inputError =
       ((typeof(this.state.valid) === 'boolean' && !this.state.valid) ||
       (typeof(this.state.valid) === 'string' && this.state.valid) ||
-        false)  && (this.props.wasTouched || this.state.touched);
+        false) && (this.props.wasTouched || this.state.touched);
 
     return (
       <div className={classNames("input-with-labels", this.props.className)}>
@@ -104,7 +115,7 @@ InputWithLabels.propTypes = {
   inputFieldType:PropTypes.oneOf(['text', 'number']).isRequired,  // the type of input field
   inputFieldNumberFormat:PropTypes.string,                        // the number format for number input fields only
   className:PropTypes.string,
-  value:PropTypes.oneOfType([PropTypes.string, PropTypes.number]),                     // the original value of the input field
+  value:PropTypes.oneOfType([PropTypes.string, PropTypes.number]), // the original value of the input field
   validation: PropTypes.func,                                      // the validation function
   onChange: PropTypes.func,
   onBlur: PropTypes.func,

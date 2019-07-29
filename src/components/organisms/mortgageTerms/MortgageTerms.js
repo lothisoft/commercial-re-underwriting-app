@@ -41,6 +41,10 @@ MTerm.propTypes = {
   terms:PropTypes.array,
 };
 
+
+/**
+ * The component
+ */
 export class MortgageTerms extends React.Component {
   constructor(props) {
      super(props);

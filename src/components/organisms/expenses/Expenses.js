@@ -5,6 +5,10 @@ import {InputWithLabels} from '../../molecules/inputWithLabels/InputWithLabels';
 
 import "./Expenses.scss";
 
+/**
+ * The Expenses component displays the input fields for expenses.  Every field which is editable notifies this component
+ * when it loses the cursor focus in order to calculate the the total
+ */
 export class Expenses extends React.Component {
   constructor (props) {
     super(props);
@@ -17,6 +21,14 @@ export class Expenses extends React.Component {
     this.handleOnBlur = this.handleOnBlur.bind(this);
   }
 
+  /**
+   * handleOnBlur() is called when any editable field loses it's input focus.  It's get's all the current values from
+   * the component state, adds all expenses up, updates the state with the new value, the new total and generates a new
+   * key for the Total Expenses field.  Changng the key of this read-only field, causes React to repaint the Total Expenses
+   * field and the new Total is displayed.
+   * @param fieldName
+   * @param blurResult
+   */
   handleOnBlur(fieldName, blurResult) {
 
     // update the expense which has just changed
@@ -31,6 +43,7 @@ export class Expenses extends React.Component {
     });
 
     // update the total expense input field
+    // changing the key of a component causes React to repaint the control
     const totalExpensesKey = Math.floor(Math.random() * Math.floor(100000000));
     this.setState({expenses, totalExpenses, totalExpensesKey});
     // and tell the parent about the new expense total

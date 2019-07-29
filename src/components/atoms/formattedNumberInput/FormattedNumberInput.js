@@ -9,9 +9,6 @@ export class FormattedNumberInput extends React.Component {
   constructor(props) {
     super(props);
 
-    // set the default format of all operations
-    //numeral.defaultFormat(this.props.format);
-
     // if a value was passed, format is and add it to the state
     let value = this.props.value;
     if (value) {
@@ -31,21 +28,40 @@ export class FormattedNumberInput extends React.Component {
     this.toggleEditing = this.toggleEditing.bind(this);
   }
 
+  /**
+   * handleOnChange() is called every time the content of an input field changes.  The function stores the content
+   * of the input field in its state.  It calls the event handler of the parent, if provided
+   * @param event
+   */
   handleOnChange(event) {
     this.props.onChange && this.props.onChange(event);
     this.setState({value:event.target.value});
   }
 
+  /**
+   * handleOnBlur() is called when the input field loses the cursor focus.  It calls a function to toggles its edit status
+   * to viewing. It calls the event handler of the parent, if provided.
+   * @param event
+   */
   handleOnBlur(event) {
     this.props.onBlur && this.props.onBlur(event);
     this.toggleEditing();
   }
 
+  /**                                   .
+   * handleOnFocus() is called when the input field gains the cursor focus.  It calls a function to toggle its edit status
+   * to editing.  It calls the event handler of the parent, if provided
+   * @param event
+   */
   handleOnFocus(event) {
     this.props.onFocus &&  this.props.onFocus(event);
     this.toggleEditing();
   }
 
+  /**
+   * toggleEditing() changes the edit/view status of the component.  In particular, it changes the value according to the
+   * format provided in order to display the number accurately in view mode.  The parent is informed of value changes.
+   */
   toggleEditing() {
     if (this.props.readonly) {
       return;

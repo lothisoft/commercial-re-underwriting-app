@@ -5,6 +5,12 @@ import classNames from 'classnames';
 
 import "./AddressDisplay.scss";
 
+/**
+ * This functional component displays the address passed as a property.  It has no further functionality
+ * @param props
+ * @returns {*}
+ * @constructor
+ */
 export const AddressDisplay = (props) => {
   return (
     <div className={classNames("organism-address-display", props.className)}>

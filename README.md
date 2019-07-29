@@ -22,7 +22,7 @@ Tip: Focus on user experience, clean coding style and accuracy.
 Bonus: Use of modern CSS properties, geolocation integration (map, typeahead), data visualization.
 
 Make an post API call to the following url with the below data object format to retrieve the loan amount and debt rate.
-
+```
 {
     income  : 300023, // Annual collected rent (Sum of all rents * 12)
     expenses: 22123,  // Total expenses value
@@ -36,11 +36,17 @@ Make an post API call to the following url with the below data object format to 
                zip   : '11216'
     }
 }
+```
 
 API URL: https://script.google.com/macros/s/AKfycbwPGz6uQQS9IW33ASPYlcWaEtRMD8eDAK1ONg7lT2dREXpaSUYh/exec
 
 End of Specification
-
+                  
+The API endpoint is not configured to be used by a browser-based front-end.  It's not possible to use a browser based
+unless the frontend runs on Google's domain.  The feature that precludes HTTP call to fail is called Cross-Origin Resource Sharing (CORS).
+I work around this problem by catching the error when my HTTP POST call fails and simulate the success by assigning
+the result from a call made to the endpoint using a tool called POSTMAN to a variable which is used to show the results.   
+                  
 ##Implementation Philosophy
 I decided to use as few third-party React libraries as possible.  That's why I decided not to utilize Redux.  It would
 have been overkill for a project of this size.  Instead, I'm decided to use React's built in component state.
@@ -49,6 +55,18 @@ I used the following libraries:
 ######classnames: A library that simplifies concatenating CSS classnames
 ######node-sass: A library that allowed me to use SASS instead of regular CSS
 ######numeral: A library that helps in formatting numbers.  This project relies heavily on numbers and it was useful to have a straightforward way to format them properly.
+
+I think it was the right decision to rely on as few third party libraries as possible because this was built as part of a coding challenge.  
+In a professional software development project, it would have be prudent to utilize Redux for application state management.
+I would also have used Redux-Form because state management for form components and form component validation hooks are provided by the 
+library.
+
+The project used modern javascript and css.  It used es6 by utilizing Babel to transpile the code and utilizes Flexbox and Grid as modern 
+css features.  High code qualiy is maintained my using es-lint. 
+The address search uses the Google Maps Places API to make the address entry as painless as possible.
+
+Every component source code is documented and describes implementation details.
+
 
 ##Component Design Philosophy
 I decided to organise the React components I built around the Atomic Design Methodolgy (as described by Brad Frost here: http://atomicdesign.bradfrost.com/). 
@@ -115,11 +133,7 @@ submit the data.
 
 ### Mortgage Terms
 Once the mortgage terms data has been returned from the server,  the first three mortgage terms are displayed.  All mortgage terms are shown after the user clicks on the "Show All" button.
-      
-             
-
-
- 
+       
 #Installation
 To install the application, you can run: 
 ### `npm install`

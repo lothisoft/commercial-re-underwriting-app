@@ -4,7 +4,6 @@ import {InputWithLabels} from "../../molecules/inputWithLabels/InputWithLabels";
 import {GooglePlacesAutoComplete} from "../../molecules/googlePlacesAutoComplete/GooglePlacesAutoComplete";
 import {Button} from "../../atoms/button/Button";
 
-import {AddressEditor} from "../addressEditor/AddressEditor";
 import {AddressDisplay} from "../addressDisplay/AddressDisplay";
 import {RentRoll} from "../rentRoll/RentRoll";
 import {Expenses} from "../expenses/Expenses";
@@ -13,13 +12,15 @@ import {MortgageTerms} from "../mortgageTerms/MortgageTerms";
 
 import "./ReUnderwritingApp.scss";
 
+/**
+ * ReUnderwritingApp implements the Real Estate Underwriting App
+ */
 export class ReUnderwritingApp extends React.Component {
   constructor() {
     super();
 
     this.state = {
       address:{},
-      addressFieldsReadOnly:true,
       addressSearchValue:"",
 
       income:0,
@@ -42,6 +43,10 @@ export class ReUnderwritingApp extends React.Component {
 
   }
 
+  /**
+   * handleOnPlaceSelected() is called when the user selected an address
+   * @param place
+   */
   handleOnPlaceSelected(place) {
     this.setState({addressSearchValue:place.formatted_address});
 
@@ -73,20 +78,39 @@ export class ReUnderwritingApp extends React.Component {
     this.setState({address}, this.isSubmitButtonDisabled);
   }
 
+  /**
+   *  handleRentRowChange() is called when a rent row changed.  The NOI is recalculated and the noiKey is changed
+   *  which prompts the repainting of the control
+   * @param income
+   */
   handleRentRowChange(income) {
     let noi = income - this.state.expenses;
     this.setState({income, noi, noiKey: Math.floor(Math.random() * Math.floor(100000000))}, this.isSubmitButtonDisabled);
   }
 
+  /**
+   *  handleExpenseChange() is called when the expenses have changed.  The NOI is recalculated and the noiKey is changed
+   *  which prompts the repainting of the control
+   * @param expenses
+   */
   handleExpenseChange(expenses) {
     let noi = this.state.income - expenses;
     this.setState({expenses, noi, noiKey: Math.floor(Math.random() * Math.floor(100000000))}, this.isSubmitButtonDisabled);
   }
 
+  /**
+   *  handleChangeCapRate() is called when the Cap Rate has changed.
+   * @param capRate
+   */
   handleChangeCapRate(capRate) {
     this.setState({rate: capRate.value}, this.isSubmitButtonDisabled);
   }
 
+  /**
+   * isSubmitButtonDisabled() is called every time a financially relevant field has been changed.  It determines
+   * whether fields all relevant to the request have been at least touched.  If they all have non-default values,
+   * the button is enabled by updating the submitButtonDisabled state.
+   */
   isSubmitButtonDisabled() {
     const currentState = this.state;
 
@@ -99,6 +123,7 @@ export class ReUnderwritingApp extends React.Component {
     const submitButtonDisabled = isAddressEmpty || isIncomeEmpty || isExpensesEmpty || isNoiEmpty || isRateEmpty;
     this.setState({submitButtonDisabled});
     }
+
 
   async submit() {
 
@@ -128,10 +153,10 @@ export class ReUnderwritingApp extends React.Component {
       });
       responseData = await response.json();
     } catch (error) {
-      // eslint-disable-next-line no-console   // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-console
       console.error("Error caught while doing POST request: ", error);
 
-      // here, the content wich is returned when the request is send from e.g. POSTMAN is used for development purposes
+      // here, the content which is returned when the request is send from e.g. POSTMAN is used for development purposes
       responseData = JSON.parse("{\"success\":true,\"terms\":[{\"NOI\":277900,\"Value\":86304.34782608695,\"75% LTV Proceeds\":64728.26086956521,\"Treasury\":0.02815,\"Interest Rate\":0.030150000000000003,\"Debt Constant\":0.05068961414695165,\"Annual Debt Service\":222320,\"Years\":30,\"# Payments\":360,\"Payoff\":0,\"Proceeds\":4385908.31162146,\"Agency\":\"Fannie Mae\",\"Type\":\"5 Years Hybrid\"}," +
         "{\"NOI\":277900,\"Value\":86304.34782608695,\"75% LTV Proceeds\":64728.26086956521,\"Treasury\":0.03105,\"Interest Rate\":0.03305,\"Debt Constant\":0.05258767500507064,\"Annual Debt Service\":222320,\"Years\":30,\"# Payments\":360,\"Payoff\":0,\"Proceeds\":4227606.563297642,\"Agency\":\"Fannie Mae\",\"Type\":\"7 Years Fixed\"}," +
         "{\"NOI\":277900,\"Value\":86304.34782608695,\"75% LTV Proceeds\":64728.26086956521,\"Treasury\":0.03415,\"Interest Rate\":0.03615,\"Debt Constant\":0.05465863730979345,\"Annual Debt Service\":222320,\"Years\":30,\"# Payments\":360,\"Payoff\":0,\"Proceeds\":4067426.6857393067,\"Agency\":\"Freddie SBL\",\"Type\":\"5 Years Hybrid\"}," +
@@ -159,10 +184,8 @@ export class ReUnderwritingApp extends React.Component {
           <GooglePlacesAutoComplete placeholder="Please enter a location"
                                     onPlaceSelected={this.handleOnPlaceSelected}
                                     value={this.state.addressSearchValue}/>
-           {!this.state.addressFieldsReadOnly &&
-            <AddressEditor address={this.state.address} readonly={this.state.addressFieldsReadOnly}/>}
-           {this.state.addressFieldsReadOnly &&
-            <AddressDisplay address={this.state.address} /> }
+
+           <AddressDisplay address={this.state.address} />
 
            <RentRoll onChange={this.handleRentRowChange}/>
 
