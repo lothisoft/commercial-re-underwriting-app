@@ -15,7 +15,7 @@ const MTerm = (props) => {
     {name:"Type", displayName:"Type: ", type:"text"},
     {name:"NOI", displayName:"NOI: ", type:"number", format:"$0,0.00"},
     {name:"75% LTV Proceeds", displayName:"75% LTV Proceeds: ", type:"number", format:"$0,0.00"},
-    {name:"Interest Rate", displayName:"Interest Rate: ", type:"number", format:"0.0%"},
+    {name:"Interest Rate", displayName:"Interest Rate: ", type:"number", format:"0.00%"},
     {name:"Debt Constant", displayName:"Debt Constant: ", type:"number", format:"0.0%"},
     {name:"Annual Debt Service", displayName:"Annual Debt Service: ", type:"number", format:"$0,0"},
     {name:"Years", displayName:"Years: ", type:"number", format:"0,0"},
@@ -34,14 +34,15 @@ const MTerm = (props) => {
                          value={props.terms[valueNameProperties.name]}
                          inputFieldType={valueNameProperties.type}
                          inputFieldNumberFormat={valueNameProperties.format}
-                          readonly={true}/>
+                         readonly={true}
+                          className="Avenir-LT-Std-65-Medium"/>
       )})}
     </div>
   );
 };
 
 MTerm.propTypes = {
-  terms:PropTypes.array,
+  terms:PropTypes.object,
 };
 
 
@@ -78,9 +79,9 @@ export class MortgageTerms extends React.Component {
         termsToShow  = this.props.terms.slice(0,3);
       }
       return (
-        <div className={"organism-mortgageterms Avenir-LT-Std-65-Medium"}>
+        <div className={"organism-mortgage-terms Avenir-LT-Std-65-Medium"}>
           <h2 className="mortgage-term-header" >
-            Mortgage Terms {!this.state.showAll && <Button className={"show-all"} onClick={this.handleShowAllClick} disabled={this.state.showAll}>Show All</Button>}
+            Mortgage Terms {!this.state.showAll && <Button className={"show-all Avenir-LT-Std-65-Medium"} onClick={this.handleShowAllClick} disabled={this.state.showAll}>Show All</Button>}
           </h2>
 
           <div className={"mortgage-terms-display"}>

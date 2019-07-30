@@ -67,6 +67,9 @@ The address search uses the Google Maps Places API to make the address entry as 
 
 Every component source code is documented and describes implementation details.
 
+##Look and Feel
+The color scheme and font family tries to mimic that of the  Greystone Commercial Lending landing page. 
+
 
 ##Component Design Philosophy
 I decided to organise the React components I built around the Atomic Design Methodolgy (as described by Brad Frost here: http://atomicdesign.bradfrost.com/). 
@@ -143,7 +146,6 @@ to download all libraries required to run the application
 
 
 #Usage
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 To start the application, you can run:

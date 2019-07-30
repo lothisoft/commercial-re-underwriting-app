@@ -1,6 +1,14 @@
-.organism-mortgageterms {
+$greystoneBlue:#1c6d8a;
+
+.organism-mortgage-terms {
+  color:$greystoneBlue;
+
    margin-top: 2em;
    margin-bottom:2em;
+
+  .mortgage-term-header {
+    color:white;
+  }
 
   .mortgage-terms-display {
     display: flex;
@@ -10,10 +18,9 @@
       margin-top: 1em;
       margin-right: 1em;
       padding: 0.25em;
-      color: black;
       background-color: white;
-      max-width: 30%;
-      min-width: 30%;
+      max-width: 45%;
+      min-width: 300px;
       font-size: 0.9em;
 
       .input-with-labels {
@@ -29,6 +36,7 @@
 
           input.read-only {
             font-size: 0.9em;
+            color:$greystoneBlue;
             background-color: white;
             border: none;
             padding: 0;

@@ -75,13 +75,13 @@ export class InputWithLabels extends React.Component {
     return (
       <div className={classNames("input-with-labels", this.props.className)}>
         {this.props.inputLabel &&
-        <Label className={classNames("input-label", {'input-label-error': inputError})} htmlFor={this.props.inputFieldName}>{this.props.inputLabel}</Label>}
+        <Label className={classNames("input-label", this.props.className, {'input-label-error': inputError})} htmlFor={this.props.inputFieldName}>{this.props.inputLabel}</Label>}
         <div className="input-field-container">
 
           {this.props.inputFieldType === 'text' &&
           <Input name={this.props.inputFieldName}
                  value={this.state.value}
-                 className={classNames("the-input-field-text",
+                 className={classNames("the-input-field-text", this.props.className,
                    {'text-input-error': inputError}, {'read-only':this.props.readonly},
                  )}
                  onChange={this.handleOnChange}
@@ -101,7 +101,7 @@ export class InputWithLabels extends React.Component {
                                 readonly={this.props.readonly}/>}
           {inputError &&
           <Label
-            className="error-label">{inputError && this.state.validationMessage}
+            className={classNames("error-label", this.props.className)}>{inputError && this.state.validationMessage}
           </Label> }
         </div>
       </div>

@@ -33,6 +33,8 @@ $greystoneBlue:#1c6d8a;
   font-family: 'Avenir LT Std 95 Black', sans-serif;
 }
 
+
+
 .re-underwriting-app {
   color:white;
   background-color:$greystoneBlue;
@@ -58,11 +60,12 @@ $greystoneBlue:#1c6d8a;
 
   .edit-address-button {
     margin-top:3em;
+    font-size: 15px;
   }
 
   .submit-button {
     margin:2em auto;
-    font-size:18px;
+    font-size: 15px;
   }
 
   .edit-address-button {

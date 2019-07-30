@@ -12,6 +12,7 @@ import {RentRoll} from "../rentRoll/RentRoll";
 import {Expenses} from "../expenses/Expenses";
 import {MortgageTerms} from "../mortgageTerms/MortgageTerms";
 
+import LogoImage from '../../../img/greystone-logo.jpg';
 
 import "./ReUnderwritingApp.scss";
 
@@ -79,7 +80,12 @@ export class ReUnderwritingApp extends React.Component {
     } else {
       address.street = interimAddress.route;
     }
-    address.city = interimAddress.sublocality_level_1 || interimAddress.locality;
+
+    if (interimAddress.sublocality_level_1 === "Queens") {
+      address.city = interimAddress.neighborhood || interimAddress.sublocality_level_1
+    } else {
+      address.city = interimAddress.sublocality_level_1 || interimAddress.locality;
+    }
     address.state = interimAddress.administrative_area_level_1;
     address.zip = interimAddress.postal_code;
     address.county = interimAddress.administrative_area_level_2;
@@ -214,18 +220,31 @@ export class ReUnderwritingApp extends React.Component {
   }
 
   render() {
-    console.log("ReUnderwritingApp.render()", this.state);
+
+    const logoSize=120;
+    const LogoStyle = {
+      height:logoSize,
+      width:logoSize,
+      background: `url(${LogoImage})`,
+      backgroundSize: logoSize,
+      backgroundRepeat:'no-repeat'
+    };
+
     return (
        <div className="re-underwriting-app Avenir-LT-Std-95-Black">
          <div className="container">
+           <a href="https://www.greyco.com/" target="_blank"  rel="noopener noreferrer" className="logo-container">
+             <div className="logo-link" style={LogoStyle}>
+             </div>
+           </a>
           <h1>
-            Commercial Real Estate Underwriting
+            Commercial Mortgage Lending Underwriting
           </h1>
           <GooglePlacesAutoComplete placeholder="Please enter a location"
                                     onPlaceSelected={this.handleOnPlaceSelected}
                                     value={this.state.addressSearchValue}/>
 
-           <Button className={classNames("edit-address-button", {"hidden":!this.hasAddressBeenSelected()})} onClick={this.handleEditAddressClick} >Edit Address</Button>
+           <Button className={classNames("edit-address-button Avenir-LT-Std-65-Medium", {"hidden":!this.hasAddressBeenSelected()})} onClick={this.handleEditAddressClick} >Edit Address</Button>
 
            <AddressEditor  key={this.state.addressEditorKey} address={this.state.address} readonly={!this.state.allowAddressToBeEdited} onChange={this.handleAddressEdit}/>
 
@@ -251,7 +270,7 @@ export class ReUnderwritingApp extends React.Component {
                             className="cap-rate"
                             onBlur={this.handleChangeCapRate}/>
 
-           <Button onClick={this.submit} className="submit-button Avenir-LT-Std-95-Black" disabled={this.state.submitButtonDisabled}>Submit</Button>
+           <Button onClick={this.submit} className="submit-button AAvenir-LT-Std-65-Medium" disabled={this.state.submitButtonDisabled}>Submit</Button>
 
            <MortgageTerms terms={this.state.mortgageTerms} visible={this.state.mortgageTerms.length > 0}/>
          </div>
