@@ -1,10 +1,13 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import {InputWithLabels} from "../../molecules/inputWithLabels/InputWithLabels";
 import {GooglePlacesAutoComplete} from "../../molecules/googlePlacesAutoComplete/GooglePlacesAutoComplete";
 import {Button} from "../../atoms/button/Button";
 
-import {AddressDisplay} from "../addressDisplay/AddressDisplay";
+import {isObjectEmpty} from "../../../util/util";
+
+import {AddressEditor} from "../addressEditor/AddressEditor";
 import {RentRoll} from "../rentRoll/RentRoll";
 import {Expenses} from "../expenses/Expenses";
 import {MortgageTerms} from "../mortgageTerms/MortgageTerms";
@@ -22,6 +25,8 @@ export class ReUnderwritingApp extends React.Component {
     this.state = {
       address:{},
       addressSearchValue:"",
+      addressEditorKey: Math.floor(Math.random() * Math.floor(100000000)),
+      allowAddressToBeEdited:false,
 
       income:0,
       expenses:0,
@@ -39,8 +44,18 @@ export class ReUnderwritingApp extends React.Component {
     this.handleExpenseChange = this.handleExpenseChange.bind(this);
     this.handleChangeCapRate = this.handleChangeCapRate.bind(this);
     this.isSubmitButtonDisabled = this.isSubmitButtonDisabled.bind(this);
+    this.handleEditAddressClick = this.handleEditAddressClick.bind(this);
+    this.hasAddressBeenSelected = this.hasAddressBeenSelected.bind(this);
+    this.handleAddressEdit = this.handleAddressEdit.bind(this);
     this.submit = this.submit.bind(this);
 
+  }
+
+  hasAddressBeenSelected() {
+    if (isObjectEmpty(this.state.address)) {
+      return false;
+    }
+    return true;
   }
 
   /**
@@ -64,7 +79,7 @@ export class ReUnderwritingApp extends React.Component {
     } else {
       address.street = interimAddress.route;
     }
-    address.city = interimAddress.sublocality_level_1;
+    address.city = interimAddress.sublocality_level_1 || interimAddress.locality;
     address.state = interimAddress.administrative_area_level_1;
     address.zip = interimAddress.postal_code;
     address.county = interimAddress.administrative_area_level_2;
@@ -75,7 +90,31 @@ export class ReUnderwritingApp extends React.Component {
       address.city = "Bronx";
     }
 
-    this.setState({address}, this.isSubmitButtonDisabled);
+    const addressEditorKey = Math.floor(Math.random() * Math.floor(100000000));
+    const isSubmitButtonDisabled = this.isSubmitButtonDisabled();
+    this.setState(
+      {address, isSubmitButtonDisabled, addressEditorKey}
+  );
+  }
+
+  /**
+   * handleEditAddressClick() is called when the user clicks on the Edit Address
+   */
+  handleEditAddressClick() {
+    const addressEditorKey = Math.floor(Math.random() * Math.floor(100000000));
+    this.setState({allowAddressToBeEdited:true, addressEditorKey});
+  }
+
+  /**
+   * handleAddressEdit() is called when one of the address lines have been edited by the AddressEditor component.  It updates
+   * the address in this state to keep track of the changes
+   * @param fieldName
+   * @param event
+   */
+  handleAddressEdit(fieldName, event) {
+    const address = this.state.address;
+    address[fieldName] = event.value;
+    this.setState({address});
   }
 
   /**
@@ -175,6 +214,7 @@ export class ReUnderwritingApp extends React.Component {
   }
 
   render() {
+    console.log("ReUnderwritingApp.render()", this.state);
     return (
        <div className="re-underwriting-app Avenir-LT-Std-95-Black">
          <div className="container">
@@ -185,7 +225,9 @@ export class ReUnderwritingApp extends React.Component {
                                     onPlaceSelected={this.handleOnPlaceSelected}
                                     value={this.state.addressSearchValue}/>
 
-           <AddressDisplay address={this.state.address} />
+           <Button className={classNames("edit-address-button", {"hidden":!this.hasAddressBeenSelected()})} onClick={this.handleEditAddressClick} >Edit Address</Button>
+
+           <AddressEditor  key={this.state.addressEditorKey} address={this.state.address} readonly={!this.state.allowAddressToBeEdited} onChange={this.handleAddressEdit}/>
 
            <RentRoll onChange={this.handleRentRowChange}/>
 
