@@ -57,7 +57,6 @@ export class ReUnderwritingApp extends React.Component {
   }
 
   handleGoogleApiLoaded(google) {
-    console.log("ReUnderwritingApp.handleGoogleApiLoaded() called ", google);
     this.setState({showGoogleSearchBar:true});
   };
 

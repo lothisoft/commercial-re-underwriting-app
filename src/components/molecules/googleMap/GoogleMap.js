@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 
+import "./GoogleMap.scss";
+
 export class GoogleMap extends React.Component {
   constructor() {
     super();
 
     this.googleMapRef = React.createRef();
-    this.myref = {};
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -16,7 +17,7 @@ export class GoogleMap extends React.Component {
   componentDidMount() {
     /*global google*/
     this.googleMap = new google.maps.Map(this.googleMapRef.current, {
-      zoom: 16,
+      zoom: this.props.zoom || 16,
       center: {
         lat: this.props.position.lat,
         lng: this.props.position.lng
@@ -35,12 +36,10 @@ export class GoogleMap extends React.Component {
   }
 
   render() {
-    console.log("GoogleMap.render():", this.googleMapRef);
     return (<div
         className="molecule-google-map"
         id="google-map"
         ref={this.googleMapRef}
-        style={{ width: '300px', height: '300px' }}
       />
     )
   }

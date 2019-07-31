@@ -64,6 +64,7 @@ library.
 The project used modern javascript and css.  It used es6 by utilizing Babel to transpile the code and utilizes Flexbox and Grid as modern 
 css features.  High code qualiy is maintained my using es-lint. 
 The address search uses the Google Maps Places API to make the address entry as painless as possible.
+Once the address has been selected, a Google Map is displayed to the right of the Address Editor to show the location on a map.
 
 Every component source code is documented and describes implementation details.
 
@@ -90,16 +91,25 @@ The Button component represents the HTML button tag.
 The FormattedNumberInput component implements a specialized input component which is used to allow the user to input a number 
 and the component formats the number according to a format string which is passed as a parameter when the component loses the cursor focus.
 This application relies a lot on entering and displaying numbers in different formats. This component is used both for 
-input as well as the display of formatted numbers (with it's readolny mode)
+input as well as the display of formatted numbers (with it's readonly mode)
 
 ##Molecules
-##InputWithLabels
+
+###GoogleApiLoader
+The GoogleApiLoader component does not have a visual representation.  It's only function is the single place where the Google
+Maps Places API is loaded.  If each component loads its own copy of the Google Maps API, the dreaded "google maps api loaded multiple times on this page"
+and the components relying on the javascript API won't work properly anymore.
+
+###InputWithLabels
 The InputWithLabels component implements a text or formatted number input box with an optional label describing the input box and an optional 
 error message which is returned by a validation function when the input does not pass the validation test.
 
-##GooglePlacesAutoComplete
+###GooglePlacesAutoComplete
 The GooglePlacesAutoComplete implements a text input field which utilized the Google Places Autocomplete API to suggest
 addresses in the US based on the first characters entered into the text field.
+
+###GoogleMap
+The GoogleMap component displays the location of the selected address.  When the address is edited, the Google Map does not update.
 
 ##Organisms
 The ReUnderwritingApp app implements the User Interface for a Mortgage Underwriting application with the following elements:
@@ -108,8 +118,9 @@ The ReUnderwritingApp app implements the User Interface for a Mortgage Underwrit
 - A Google Place API enhanced address search text input fields which proposes valid addresses in the US.  The user selects one
 address to proceed.
 
-###Address Display
-- The Address display shows the five elements of an address in the US: street address, city, state, zip code and county name.
+###Address Editor
+- The AddressEditor component displays the five elements of an address in the US: street address, city, state, zip code and county name.
+The user can edit the values once the Edit Address button has been clicked. 
 
 ###Rent Roll
 - The rent roll allows the user to enter 1 or more units at this address.  

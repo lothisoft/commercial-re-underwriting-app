@@ -8,8 +8,6 @@ import {Input} from "../../atoms/input/Input.js";
 import "./GooglePlacesAutoComplete.scss";
 
 export class GooglePlacesAutoComplete extends React.Component {
-
-  // Define Constructor
   constructor() {
     super();
 

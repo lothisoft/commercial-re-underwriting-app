@@ -52,13 +52,10 @@ $greystoneBlue:#1c6d8a;
 
   .address-container {
     display:flex;
-    justify-content: space-around;
 
     .organism-address-editor, .molecule-google-map {
-      max-width:45%;
+      width:49%;
     }
-
-
   }
 
   .input-with-labels.noi-display, .input-with-labels.cap-rate {
