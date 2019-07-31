@@ -50,6 +50,17 @@ $greystoneBlue:#1c6d8a;
     margin-left:5%;
   }
 
+  .address-container {
+    display:flex;
+    justify-content: space-around;
+
+    .organism-address-editor, .molecule-google-map {
+      max-width:45%;
+    }
+
+
+  }
+
   .input-with-labels.noi-display, .input-with-labels.cap-rate {
     margin-top:2em;
   }

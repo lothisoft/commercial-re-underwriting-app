@@ -2,16 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-
 // Import Search Bar Components
 import {Input} from "../../atoms/input/Input.js";
 
-//Import React Script Library to load Google object
-import Script from 'react-load-script';
-
 import "./GooglePlacesAutoComplete.scss";
-
-const googlePlacesAPIKey = "AIzaSyAoaBjtaYgGEN4IP4X06fC70v7AM4cexgc";
 
 export class GooglePlacesAutoComplete extends React.Component {
 
@@ -19,14 +13,13 @@ export class GooglePlacesAutoComplete extends React.Component {
   constructor() {
     super();
 
-    this.handleScriptLoad = this.handleScriptLoad.bind(this);
     this.handlePlaceSelect = this.handlePlaceSelect.bind(this);
   }
 
   /**
-   * handleScriptLoad() is called once the thrid party javascript file has been loaded
+   * the Google Places API is instantiated here for the Google Places Autocomplete
    */
-  handleScriptLoad() {
+  componentDidMount() {
     const options = {types: ['address'], ComponentRestrictions:{country: ["us"]}};
     /*global google*/
     this.autocomplete = new google.maps.places.Autocomplete(document.getElementById('googlePlacesAutoComplete'), options);
@@ -49,9 +42,6 @@ export class GooglePlacesAutoComplete extends React.Component {
   render() {
     return (
       <div className={classNames('google-places-auto-complete', this.props.className)}>
-        <Script url={`https://maps.googleapis.com/maps/api/js?key=${googlePlacesAPIKey}&libraries=places`}
-                onLoad={this.handleScriptLoad}
-        />
         <Input id="googlePlacesAutoComplete"
                name="googlePlacesAutoComplete"
                placeholder={this.props.placeholder}

@@ -2,12 +2,14 @@ import React from 'react';
 import classNames from 'classnames';
 
 import {InputWithLabels} from "../../molecules/inputWithLabels/InputWithLabels";
+import {GoogleApiLoader} from "../../molecules/googleApiLoader/GoogleApiLoader";
 import {GooglePlacesAutoComplete} from "../../molecules/googlePlacesAutoComplete/GooglePlacesAutoComplete";
 import {Button} from "../../atoms/button/Button";
 
 import {isObjectEmpty} from "../../../util/util";
 
 import {AddressEditor} from "../addressEditor/AddressEditor";
+import {GoogleMap} from "../../molecules/googleMap/GoogleMap";
 import {RentRoll} from "../rentRoll/RentRoll";
 import {Expenses} from "../expenses/Expenses";
 import {MortgageTerms} from "../mortgageTerms/MortgageTerms";
@@ -24,6 +26,8 @@ export class ReUnderwritingApp extends React.Component {
     super();
 
     this.state = {
+      showGoogleSearchBar:false,
+      showGoogleMap:false,
       address:{},
       addressSearchValue:"",
       addressEditorKey: Math.floor(Math.random() * Math.floor(100000000)),
@@ -39,7 +43,7 @@ export class ReUnderwritingApp extends React.Component {
       submitButtonDisabled:true,
     };
 
-
+    this.handleGoogleApiLoaded = this.handleGoogleApiLoaded.bind(this);
     this.handleOnPlaceSelected = this.handleOnPlaceSelected.bind(this);
     this.handleRentRowChange = this.handleRentRowChange.bind(this);
     this.handleExpenseChange = this.handleExpenseChange.bind(this);
@@ -51,6 +55,11 @@ export class ReUnderwritingApp extends React.Component {
     this.submit = this.submit.bind(this);
 
   }
+
+  handleGoogleApiLoaded(google) {
+    console.log("ReUnderwritingApp.handleGoogleApiLoaded() called ", google);
+    this.setState({showGoogleSearchBar:true});
+  };
 
   hasAddressBeenSelected() {
     if (isObjectEmpty(this.state.address)) {
@@ -64,7 +73,10 @@ export class ReUnderwritingApp extends React.Component {
    * @param place
    */
   handleOnPlaceSelected(place) {
-    this.setState({addressSearchValue:place.formatted_address});
+    this.setState({addressSearchValue:place.formatted_address,
+      addressLocation:{lat: place.geometry.location.lat(),
+      lng:place.geometry.location.lng()},
+      showGoogleMap:true});
 
     const interimAddress = {};
     // Get each component of the address from the place details,
@@ -232,21 +244,27 @@ export class ReUnderwritingApp extends React.Component {
 
     return (
        <div className="re-underwriting-app Avenir-LT-Std-95-Black">
+         <GoogleApiLoader onScriptLoaded={this.handleGoogleApiLoaded}/>
+
          <div className="container">
            <a href="https://www.greyco.com/" target="_blank"  rel="noopener noreferrer" className="logo-container">
              <div className="logo-link" style={LogoStyle}>
              </div>
            </a>
+
           <h1>
             Commercial Mortgage Lending Underwriting
           </h1>
-          <GooglePlacesAutoComplete placeholder="Please enter a location"
+           {this.state.showGoogleSearchBar && <GooglePlacesAutoComplete placeholder="Please enter a location"
                                     onPlaceSelected={this.handleOnPlaceSelected}
-                                    value={this.state.addressSearchValue}/>
+                                    value={this.state.addressSearchValue}/>}
 
            <Button className={classNames("edit-address-button Avenir-LT-Std-65-Medium", {"hidden":!this.hasAddressBeenSelected()})} onClick={this.handleEditAddressClick} >Edit Address</Button>
 
-           <AddressEditor  key={this.state.addressEditorKey} address={this.state.address} readonly={!this.state.allowAddressToBeEdited} onChange={this.handleAddressEdit}/>
+           <div className="address-container">
+             <AddressEditor  key={this.state.addressEditorKey} address={this.state.address} readonly={!this.state.allowAddressToBeEdited} onChange={this.handleAddressEdit} />
+             {this.state.showGoogleMap && <GoogleMap position={this.state.addressLocation}/>}
+           </div>
 
            <RentRoll onChange={this.handleRentRowChange}/>
 
